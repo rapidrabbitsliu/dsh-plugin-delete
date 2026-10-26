@@ -1,0 +1,4 @@
+- insert:
+    - id: plugin-delete
+      name: '@local/plugin-delete'
+      config: {}

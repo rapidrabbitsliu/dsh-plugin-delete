@@ -1,0 +1,6 @@
+{
+  "meta": {
+    "title": "Workspace & Session Delete",
+    "description": "After a workspace registration is deleted, offers to also delete its session records and/or every file in its folder; adds a Delete session item to each session's menu. The harness keeps no delete API, so this plugin owns those removals: session logs under the sessions directory, projection caches, and registry pins/archives."
+  }
+}

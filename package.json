@@ -1,0 +1,49 @@
+{
+  "name": "@local/plugin-delete",
+  "version": "0.2.1",
+  "private": true,
+  "type": "module",
+  "description": "Unified delete-workspace confirmation with optional session-record and folder-content removal, plus a Delete session menu action.",
+  "license": "MIT",
+  "author": "rapidrabbitsliu",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rapidrabbitsliu/dsh-plugin-delete.git"
+  },
+  "bugs": {
+    "url": "https://github.com/rapidrabbitsliu/dsh-plugin-delete/issues"
+  },
+  "keywords": [
+    "dsh",
+    "deepseek-harness",
+    "cordis",
+    "plugin",
+    "bundle",
+    "delete",
+    "workspace",
+    "session"
+  ],
+  "exports": {
+    ".": "./index.js",
+    "./client": "./client.js",
+    "./locale/*.json": "./locale/*.json",
+    "./icon": "./icon.svg"
+  },
+  "files": [
+    "index.js",
+    "client.js",
+    "cordis.patch.yml",
+    "locale/*.json",
+    "icon.svg"
+  ],
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "platform": "web",
+      "immediately": true,
+      "inject": ["@deepseek-ai/dsh-client-ui-workspace"]
+    }
+  }
+}
