@@ -1,5 +1,5 @@
 /**
- * Host half of @local/plugin-delete.
+ * Host half of dsh-plugin-delete.
  *
  * The harness keeps no session-delete or folder-delete capability, so this
  * plugin owns those removals itself:

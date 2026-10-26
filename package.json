@@ -1,5 +1,5 @@
 {
-  "name": "@local/plugin-delete",
+  "name": "dsh-plugin-delete",
   "version": "0.2.1",
   "private": true,
   "type": "module",
