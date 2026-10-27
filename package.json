@@ -1,5 +1,5 @@
 {
-  "name": "dsh-plugin-delete",
+  "name": "@dsh-plugins-collection/dsh-plugin-delete",
   "version": "0.2.1",
   "type": "module",
   "description": "Unified delete-workspace confirmation with optional session-record and folder-content removal, plus a Delete session menu action.",

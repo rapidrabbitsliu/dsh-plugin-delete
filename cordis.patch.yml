@@ -1,4 +1,4 @@
 - insert:
     - id: plugin-delete
-      name: dsh-plugin-delete
+      name: '@dsh-plugins-collection/dsh-plugin-delete'
       config: {}
