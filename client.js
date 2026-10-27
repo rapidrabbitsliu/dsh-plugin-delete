@@ -1,5 +1,5 @@
 /**
- * Client half of @dsh-plugins-collection/dsh-plugin-delete (Module Loader lane, plain JS, no JSX).
+ * Client half of dsh-plugin-delete (Module Loader lane, plain JS, no JSX).
  *
  * - Registers a "Delete session" row in each session's menu.
  * - Intercepts the host's workspace "..." menu delete item and shows the
@@ -11,7 +11,7 @@
  *   `--dsw-alias-*` theme tokens.
  */
 window.__ModuleLoader__.load({
-  id: '@dsh-plugins-collection/dsh-plugin-delete',
+  id: 'dsh-plugin-delete',
   factory(require) {
     const React = require('react')
     const h = React.createElement

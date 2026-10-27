@@ -1,4 +1,4 @@
-# @dsh-plugins-collection/dsh-plugin-delete
+# dsh-plugin-delete
 
 删除增强插件 for [DeepSeek Harness](https://github.com/deepseek-ai/deepseek-harness) (DSH)：删除工作区时可在**同一个确认框**里选择是否连带删除其全部会话记录与实体文件夹内容；会话菜单内提供「删除会话」；并为模型提供 `delete_records` 工具。
 
@@ -70,7 +70,7 @@ git clone https://github.com/rapidrabbitsliu/dsh-plugin-delete
 ### 从 npm（即将发布）
 
 ```bash
-# 在插件管理器中直接搜索 @dsh-plugins-collection/dsh-plugin-delete 安装
+# 发布完成后在插件管理器中直接搜索 dsh-plugin-delete 安装
 ```
 
 ## 已知限制
@@ -163,7 +163,7 @@ In the DSH **Plugin Manager**, choose "install from local directory" and point i
 
 ### From npm (coming soon)
 
-Search for `@dsh-plugins-collection/dsh-plugin-delete` in the Plugin Manager.
+Search for `dsh-plugin-delete` in the Plugin Manager once published.
 
 ## Known limitations
 
