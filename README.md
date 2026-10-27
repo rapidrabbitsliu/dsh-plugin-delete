@@ -67,11 +67,9 @@ git clone https://github.com/rapidrabbitsliu/dsh-plugin-delete
 
 在 DSH 的 **插件管理器**（桌面端「设置 → 插件」或 `dsh` Web GUI）中选择「从本地目录安装」，指向上面的克隆目录即可，安装后立即生效（无需重启）。
 
-### 从 npm（即将发布）
+### 从 npm（已发布）
 
-```bash
-# 发布完成后在插件管理器中直接搜索 dsh-plugin-delete 安装
-```
+在插件管理器（设置 → 插件）中直接搜索 `dsh-plugin-delete` 安装即可。同一发布者的 org 版本也在架上：`@dsh-plugins-collection/dsh-plugin-delete`。
 
 ## 已知限制
 
@@ -161,9 +159,9 @@ git clone https://github.com/rapidrabbitsliu/dsh-plugin-delete
 
 In the DSH **Plugin Manager**, choose "install from local directory" and point it at the cloned folder. Takes effect immediately, no restart needed.
 
-### From npm (coming soon)
+### From npm (published)
 
-Search for `dsh-plugin-delete` in the Plugin Manager once published.
+Search for `dsh-plugin-delete` in the Plugin Manager (Settings → Plugins). A same-publisher org build is also available: `@dsh-plugins-collection/dsh-plugin-delete`.
 
 ## Known limitations
 
