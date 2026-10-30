@@ -6,6 +6,12 @@ A delete-experience plugin for DeepSeek Harness: one unified confirmation when d
 
 中文 | [English](#english)
 
+## 0.2.2 修复
+
+修复 [issue #1](https://github.com/rapidrabbitsliu/dsh-plugin-delete/issues/1)：直接注册 `delete_records` 时使用标准 JSON Schema，避免兼容接口因无效工具定义拒绝整轮对话。删除业务逻辑未改动。升级到 `dsh-plugin-delete@0.2.2` 后请确认 Host 已重新加载插件；必要时在没有活动任务时重启 Host。
+
+Fixes [#1](https://github.com/rapidrabbitsliu/dsh-plugin-delete/issues/1): register a standard object-rooted JSON Schema for `delete_records`, preventing compatible APIs from rejecting the entire turn because of an invalid tool definition. Deletion behavior is unchanged. After upgrading to `dsh-plugin-delete@0.2.2`, ensure the Host reloads the plugin; restart only when no tasks are active if needed.
+
 - [English](#english)
 
 ---
@@ -83,8 +89,34 @@ git clone https://github.com/rapidrabbitsliu/dsh-plugin-delete
 无构建步骤：Host 半区（`index.js`）与 Client 半区（`client.js`）均为纯 JS，locale 位于 `locale/`。
 
 ```bash
-node --check index.js && node --check client.js
+npm install
+npm run check
+npm test
 ```
+
+### 工具参数回归验收（issue #1）
+
+自动化测试从真实 `apply()` 入口捕获注册的 `delete_records`，对序列化后的工具参数使用 Ajv 严格校验：要求对象根节点、顶层必填声明与合法属性类型，并验证旧版简写会被拒绝。同时覆盖参数错误、自删保护、盘符根目录拒绝与停用清理。测试使用模拟宿主，不调用真实模型接口、不删除真实文件或会话。
+
+端到端验收需在独立测试 profile 中加载本地修复版（不要替换正在承载任务的插件），配置 DeepSeek 官方 OpenAI 兼容接口：
+
+1. 插件启用但不调用删除工具，连续进行两轮普通对话；两轮均成功，且不出现 `Invalid schema for function 'delete_records'`。
+2. 在请求日志中仅核查该工具定义：`parameters.type` 为 `object`、字段位于 `properties`、`required` 为 `['action']`；不要复制 API 密钥。
+3. 如需工具执行验证，只让模型尝试删除该测试会话自身；应返回 `refused-self-delete`，会话应仍能继续对话。不要对真实目录测试删除。
+
+本地回归通过不等同于上述真实接口验收通过。
+
+### 隔离宿主验收
+
+在已经构建的 DSH checkout 上执行（路径由环境变量或命令参数指定）：
+
+```bash
+node scripts/host-smoke.mjs /path/to/built/deepseek-harness
+```
+
+0.2.2 发布前已通过 6 项本地回归测试和 10 组隔离宿主检查。后者使用真实 Cordis、ToolRuntime、SystemPrompt 和 AgentRegistry，验证模型可见 Schema、提示词投影、自删保护、一次性临时记录删除、模拟关闭事件后的延迟清理、卸载与重载。其他工作区/HTTP 服务使用 mock，不启动服务器，不修改现有 profile。10 组检查中包含两项已知边界断言：直接 `register()` 的参数 Schema 不由 `tools.execute()` 自动强制校验；自删保护依赖驱动建立 `agents.withInitiator()` 上下文。删除业务行为未在本修复中调整。
+
+未验收真实 SessionStore/agent-loop 停止流程、60 秒兜底、HTTP/UI、Loader/profile 安装或 DeepSeek 官方接口（当前环境无其凭据）。No live DeepSeek API or full GUI/profile-installation verification was performed.
 
 本地开发安装（pnpm link 到 profile 后，改代码 + 重启宿主即生效）。
 

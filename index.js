@@ -17,7 +17,7 @@ import os from 'node:os'
 
 export const inject = ['webServer', 'workspaceRegistry', 'workspaceController', 'agents', 'tools']
 
-const VERSION = '0.2.1'
+const VERSION = '0.2.2'
 const POLL_MS = 25000
 const DEFERRED_FALLBACK_MS = 60000
 const RM_OPTIONS = { recursive: true, force: true, maxRetries: 8, retryDelay: 250 }
@@ -443,14 +443,19 @@ export function apply(ctx, config = {}) {
       name: 'delete_records',
       description:
         'Permanently delete harness records this plugin owns: session logs (conversation history) by session id, and every file inside a workspace folder. The current session cannot self-delete. Live sessions are stopped first and their files are removed when they close. A folder delete is irreversible: there is no trash.',
+      // Direct registration takes wire-format JSON Schema, not defineTool's shorthand.
       parameters: {
-        action: {
-          type: 'string',
-          required: true,
-          description: "'sessions' deletes the listed session records; 'folder' deletes every file inside folderPath.",
+        type: 'object',
+        properties: {
+          action: {
+            type: 'string',
+            description: "'sessions' deletes the listed session records; 'folder' deletes every file inside folderPath.",
+          },
+          sessionIds: { type: 'array', items: { type: 'string' }, description: 'Session ids for action=sessions.' },
+          folderPath: { type: 'string', description: 'Absolute workspace folder path for action=folder.' },
         },
-        sessionIds: { type: 'array', items: { type: 'string' }, description: 'Session ids for action=sessions.' },
-        folderPath: { type: 'string', description: 'Absolute workspace folder path for action=folder.' },
+        required: ['action'],
+        additionalProperties: false,
       },
       output: {
         schema: { type: 'object' },

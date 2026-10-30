@@ -1,6 +1,6 @@
 {
   "name": "dsh-plugin-delete",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "type": "module",
   "description": "Unified delete-workspace confirmation with optional session-record and folder-content removal, plus a Delete session menu action.",
   "license": "MIT",
@@ -42,7 +42,20 @@
     "client": {
       "platform": "web",
       "immediately": true,
-      "inject": ["@deepseek-ai/dsh-client-ui-workspace"]
+      "inject": [
+        "@deepseek-ai/dsh-client-ui-workspace"
+      ]
     }
+  },
+  "scripts": {
+    "test": "node --test",
+    "check": "node --check index.js && node --check client.js"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/",
+    "access": "public"
+  },
+  "devDependencies": {
+    "ajv": "^8.20.0"
   }
 }
