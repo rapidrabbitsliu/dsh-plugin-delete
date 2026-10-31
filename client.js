@@ -520,7 +520,6 @@ window.__ModuleLoader__.load({
               ref: confirmRef,
               className: 'pd-btn pd-btn-danger',
               onClick: confirm,
-              disabled: !doSessions && !doFiles,
             }, t('ws.pre.confirm'))),
           phase === 'busy' && h('button', { className: 'pd-btn', disabled: true }, t('ws.pre.pending')),
           (phase === 'done' || phase === 'error') && h('button', {
@@ -575,10 +574,10 @@ window.__ModuleLoader__.load({
     }
 
     /**
-     * Decide whether a click asks to delete a workspace: an interactive
-     * ancestor carrying delete-looking text, or fiber props naming the
-     * delete menu item; then walk the fiber chain (through portals) for the
-     * owning workspace row view.
+     * Only an actual menu item with an exact host delete label is a delete
+     * command. Workspace names, accessible button labels and ancestor fiber
+     * props are user data, never evidence of delete intent. Walk the fiber
+     * chain (through portals) only to resolve the owning workspace row.
      */
     function analyzeClick(target) {
       const analysis = { tag: target.tagName ? String(target.tagName).toLowerCase() : '', role: null, text: '', deleteHint: false, workspaceId: null, acted: false }
@@ -588,22 +587,15 @@ window.__ModuleLoader__.load({
         const text = collapseText(interactive.textContent)
         if (text) {
           analysis.text = text.slice(0, 48)
-          if (HOST_DELETE_LABELS.has(text) || DELETE_HINT_RE.test(text) || DELETE_HINT_RE_EN.test(text)) analysis.deleteHint = true
+          analysis.deleteHint = interactive.getAttribute('role') === 'menuitem' && HOST_DELETE_LABELS.has(text)
         }
         const aria = collapseText(interactive.getAttribute && interactive.getAttribute('aria-label'))
         if (!analysis.text && aria) analysis.text = aria.slice(0, 48)
-        if (!analysis.deleteHint && aria && (DELETE_HINT_RE.test(aria) || DELETE_HINT_RE_EN.test(aria))) analysis.deleteHint = true
       }
       let fiber = fiberFrom(target)
       for (let hops = 0; fiber && hops < 400; hops += 1) {
         const props = fiber.memoizedProps
         if (props && typeof props === 'object') {
-          if (!analysis.deleteHint) {
-            const item = props.item
-            if (item && typeof item === 'object' && String(item.id) === 'delete') analysis.deleteHint = true
-            const label = typeof props.label === 'string' ? collapseText(props.label) : ''
-            if (!analysis.deleteHint && label && (HOST_DELETE_LABELS.has(label) || DELETE_HINT_RE.test(label) || DELETE_HINT_RE_EN.test(label))) analysis.deleteHint = true
-          }
           const row = pickWorkspaceFromProps(props)
           if (row) {
             analysis.workspaceId = row.workspaceId

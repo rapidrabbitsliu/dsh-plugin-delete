@@ -17,7 +17,7 @@ import os from 'node:os'
 
 export const inject = ['webServer', 'workspaceRegistry', 'workspaceController', 'agents', 'tools']
 
-const VERSION = '0.2.2'
+const VERSION = '0.2.3'
 const POLL_MS = 25000
 const DEFERRED_FALLBACK_MS = 60000
 const RM_OPTIONS = { recursive: true, force: true, maxRetries: 8, retryDelay: 250 }

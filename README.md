@@ -6,6 +6,15 @@ A delete-experience plugin for DeepSeek Harness: one unified confirmation when d
 
 中文 | [English](#english)
 
+## 0.2.3 修复
+
+- 修复工作区名包含 `delete` / `remove` / “删除” / “移除”时，点击三个点或新增会话误弹删除框的问题。现在仅识别文字完整匹配的“删除工作区” / “Delete workspace”菜单项；React 上层数据只用于确定工作区归属。
+- 修复两个清理选项均不勾选时无法确认的问题：现在可以只删除工作区注册记录，保留会话与文件，会话归入“未分组”。
+- 35 项本地回归测试通过，覆盖点击识别、两个选项均为 false 的提交、工具 Schema 与安全守卫。测试使用模拟宿主；当前 GUI 自动化访问返回 401，未完成真实页面端到端验收。
+- 升级到 `dsh-plugin-delete@0.2.3` 后确保插件完成重新加载，并刷新已打开的页面；不要在活动任务期间重启 Host。
+
+Fixes false workspace-delete dialogs when workspace names contain deletion keywords. Only exact host delete-workspace menu labels are intercepted. Confirmation now allows both optional cleanup checkboxes to remain unchecked, removing only the workspace registration while preserving sessions and files. All 35 local regression tests pass; full live GUI verification was not completed (automation received HTTP 401).
+
 ## 0.2.2 修复
 
 修复 [issue #1](https://github.com/rapidrabbitsliu/dsh-plugin-delete/issues/1)：直接注册 `delete_records` 时使用标准 JSON Schema，避免兼容接口因无效工具定义拒绝整轮对话。删除业务逻辑未改动。升级到 `dsh-plugin-delete@0.2.2` 后请确认 Host 已重新加载插件；必要时在没有活动任务时重启 Host。
